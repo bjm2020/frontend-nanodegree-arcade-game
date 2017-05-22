@@ -1,3 +1,6 @@
+
+var playerX;
+var playerY;
 // Enemies our player must avoid
 var Enemy = function(speed,locx,locy,del) {
     // Variables applied to each of our instances go here,
@@ -24,6 +27,8 @@ Enemy.prototype.update = function(dt) {
     var curlocy = this.y;
     //console.log(dt);
     this.x = (curlocx+1 + this.speed);
+
+    checkCollision(this);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -41,8 +46,8 @@ var Player = function() {
 }
 
 Player.prototype.update = function() {
-        this.x = this.x;
-        this.y = this.y;
+        playerX = this.x;
+        playerY = this.y;
           /* The drawImage function of the canvas' context element
            * requires 3 parameters: the image to draw, the x coordinate
            * to start drawing and the y coordinate to start drawing.
@@ -87,7 +92,11 @@ var enemymed = new Enemy(2,0,140);
 var enemyfast = new Enemy(3,0,230);
 var allEnemies = [enemyslow,enemymed,enemyfast];
 
-
+function checkCollision(enemy) {
+  Console.log("PlayerXY: " + playerX + "," + playerY + " EnemyXY: " + enemy.x + "," enemy.y);
+  if(playerX === enemy.x && playerY == enemy.y)
+  Console.log("Collision");
+}
 
 
 // This listens for key presses and sends the keys to your
