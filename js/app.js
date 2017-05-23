@@ -93,8 +93,14 @@ var enemyfast = new Enemy(3,0,230);
 var allEnemies = [enemyslow,enemymed,enemyfast];
 
 function checkCollision(enemy) {
-  Console.log("PlayerXY: " + playerX + "," + playerY + " EnemyXY: " + enemy.x + "," enemy.y);
-  if(playerX === enemy.x && playerY == enemy.y)
+  var rect1 = {x: enemy.x, y: enemy.y, width: 50, height: 50}
+var rect2 = {x: 20, y: 10, width: 10, height: 10}
+
+if (rect1.x < rect2.x + rect2.width &&
+   rect1.x + rect1.width > rect2.x &&
+   rect1.y < rect2.y + rect2.height &&
+   rect1.height + rect1.y > rect2.y) {
+    // collision detected!
   Console.log("Collision");
 }
 
