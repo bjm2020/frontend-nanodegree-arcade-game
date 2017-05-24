@@ -14,6 +14,8 @@
  * a little simpler to work with.
  */
 
+var startGame = false;
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -24,7 +26,6 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
@@ -33,6 +34,11 @@ var Engine = (function(global) {
      * and handles properly calling the update and render methods.
      */
     function main() {
+
+      if(localStorage.getItem("highscore") === null){
+        localStorage.setItem("highscore","0");
+        console.log("hello");
+      }
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -47,7 +53,10 @@ var Engine = (function(global) {
          */
         update(dt);
         //console.log("Updating Images" + dt);
+
         render();
+
+      //  renderEntities();
       //  console.log("Rendering Images");
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -97,6 +106,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        heart.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -137,8 +147,10 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
-        renderEntities();
+        if(!startGame) {
+        menu.render();
+      }
+      else renderEntities();
     }
 
     /* This function is called by the render function and is called on each game
@@ -152,8 +164,11 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
+        allItems.forEach(function(heart) {
+          heart.render();
+        });
         player.render();
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -173,8 +188,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Heart.png'
     ]);
+
+    //Resources.load(this.enemy.sprites);
     Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window
@@ -182,4 +200,5 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    global.startGame = startGame;
 })(this);
