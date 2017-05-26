@@ -1,5 +1,5 @@
 # Zombie Escape Game
-===============================
+
 
 Escape the Zombie Hoarde.  Move your player across the terrain to the safe zone.
 Collect hearts for bonus points.  Watch out for those Zombies!
@@ -21,14 +21,14 @@ Your browser must support the HTML5 Canvas.  The following browsers support the 
 
 
 ## Playing The Game
-===================
+
 
 ### Keyboard Controls
 
-Up Arrow - Move Player Up
-Down Arrow - Move Player Down
-Left Arrow - Move Player Left
-Right Arrow - Move Player Right
+* Up Arrow - Move Player Up
+* Down Arrow - Move Player Down
+* Left Arrow - Move Player Left
+* Right Arrow - Move Player Right
 
 ### Scoring
 
