@@ -16,6 +16,7 @@
 
 var startGame = false;
 
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -26,19 +27,24 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+
+    //Add Background Sound to Game.
+    var sound = new Audio("sounds/HorrorAmbience.wav");
+    sound.loop = true;
+    sound.play();
+
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
+  //  canvas2 = doc.createElement('canvas');
+  //  ctx2 = canvas.getContext('2d');
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
     function main() {
 
-      if(localStorage.getItem("highscore") === null){
-        localStorage.setItem("highscore","0");
-        console.log("hello");
-      }
+
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -52,12 +58,9 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
         update(dt);
-        //console.log("Updating Images" + dt);
+
 
         render();
-
-      //  renderEntities();
-      //  console.log("Rendering Images");
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
@@ -66,7 +69,6 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        // console.log("Reset");
         win.requestAnimationFrame(main);
     }
 
@@ -120,11 +122,11 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
+                'images/grass-block_gr.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
+                'images/stone-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 6,
@@ -147,10 +149,13 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
+        //Renders the game menu if startGame is false.  If true, start the game and render entities.
         if(!startGame) {
         menu.render();
       }
-      else renderEntities();
+      else {
+        renderEntities();
+      }
     }
 
     /* This function is called by the render function and is called on each game
@@ -168,6 +173,20 @@ var Engine = (function(global) {
           heart.render();
         });
         player.render();
+
+        renderScore();
+    }
+
+//Render the Score onto the Game Canvas.
+
+    function renderScore() {
+      ctx.font="30pt Exquisite-Corpse";
+      ctx.textAlign="right";
+      ctx.fillStyle="red";
+      ctx.strokeStyle="black";
+      ctx.lineWidth=2;
+      ctx.fillText("Score: " + score,450,100);
+      ctx.strokeText("Score: " + score,450,100);
 
     }
 
@@ -187,8 +206,8 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-boy.png',
+        'images/grass-block_gr.png',
+        'images/warrior.png',
         'images/Heart.png'
     ]);
 
